@@ -46,7 +46,6 @@ def startscan(serial_port):
 
                         payload = re.findall("^(.{10})(.{4})(.{4})(.{32})(.{4})(.{4})(.{2})", adv_data)[0]
 
-
                         flag_info = payload[0]
                         company_id = payload[1]
                         adv_indicator = payload[2]
@@ -65,6 +64,8 @@ def startscan(serial_port):
 
 
         except KeyboardInterrupt:
+            ser.write(b'scan=00\r\n')  # Stop scan
+            ser.close()  # Close port
             pass
     except serial.serialutil.SerialException:
         print("No dongle connected to " + serial_port)
